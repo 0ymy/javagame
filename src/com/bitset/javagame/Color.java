@@ -7,7 +7,7 @@ public class Color {
         this.red = red;
         this.green = green;
         this.blue = blue;
-        this.alpha = alpha;//test comment
+        this.alpha = alpha;
     }
 
     public Color(int red, int green, int blue) {

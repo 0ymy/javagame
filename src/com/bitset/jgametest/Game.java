@@ -28,6 +28,8 @@ public class Game {
 
         var testSurf = Surface.fromFile("com/bitset/jgametest/tree.png");
 
+        float angle = 0f;
+
         while (running) {
             long time = System.nanoTime();
             count += (time - lastTime) / delta;
@@ -48,9 +50,12 @@ public class Game {
                     }
                 }
 
+                angle += 1f;
+                Surface test = testSurf.rotate(angle);
+
                 window.fill(new Color(255, 0, 0, 255));
-                window.surface(testSurf, 0, 0);
-                window.oval(new Color(0, 255, 0, 255), window.width / 2, window.height / 2, 64, 64, 0);
+                window.surface(test, window.width / 2 - test.width / 2, window.height / 2 - test.height / 2, test.width, test.height);
+                window.oval(new Color(0, 255, 0, 255), window.width / 2, window.height / 2, 128, 128, 0);
                 window.flip();
             }
         }

@@ -2,6 +2,9 @@ package com.bitset.javagame;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -27,6 +30,27 @@ public class Surface {
         this.height = image.getHeight();
 
         this.image = image;
+    }
+
+    public Surface rotate(double angleDegrees) {
+        double angleRadians = Math.toRadians(angleDegrees);
+        var transform = new AffineTransform();
+        transform.rotate(angleRadians, image.getWidth() / 2.0f, image.getHeight() / 2.0f);
+
+        var rect = new Rectangle2D.Double(0, 0, image.getWidth(), image.getHeight());
+        var bounds = transform.createTransformedShape(rect).getBounds2D();
+        var translation = new AffineTransform();
+        translation.translate(-bounds.getX(), -bounds.getY());
+        transform.preConcatenate(translation);
+
+        var op = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        var rotated = op.filter(image, null);
+
+        var result = new BufferedImage((int) bounds.getWidth(), (int) bounds.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics = (Graphics2D) result.getGraphics();
+        graphics.drawImage(rotated, 0, 0, null);
+
+        return new Surface(result);
     }
 
     public Surface(int width, int height) {
