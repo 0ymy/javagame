@@ -1,4 +1,4 @@
 # javagame
 
-Javagame is a game library like pygame but in java.
-It is based on Swing/awt
+absolute shit show of a library do not recommend using it. Making a much better one with OpenGL
+ 
